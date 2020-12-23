@@ -16,10 +16,11 @@ Route::group([
         Route::post('me', 'AuthController@me');
 
         
-        Route::get('users', 'UserController@index')->name('users.index'); 
+        
     });
 
     //Rotas publicas
+    Route::get('users', 'UserController@index')->name('users.index'); 
     Route::post('login', 'AuthController@login');
     Route::post('register', 'AuthController@register');
 });
