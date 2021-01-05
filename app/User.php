@@ -7,20 +7,22 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-
-/** @property int id */
-/** @property string name */
-/** @property string email */
-/** @property Carbon email_verified_at */
-/** @property string password */
-/** @property string remember_token */
-/** @property Carbon created_at */
-/** @property Carbon updated_at */
-/** @property Carbon deleted_at */
+/** Class User */
+/** @package App */
+/** @property int $id */
+/** @property string $name */
+/** @property string $email */
+/** @property Carbon $email_verified_at */
+/** @property string $password */
+/** @property string $remember_token */
+/** @property Carbon $created_at */
+/** @property Carbon $updated_at */
+/** @property Course[]|Collection $courses */
+/** @property Carbon $deleted_at */
 class User extends Authenticatable implements JWTSubject
 {
     use Notifiable, SoftDeletes;
-
+    
     /**
      * The attributes that are mass assignable.
      *
@@ -68,5 +70,9 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    public function courses() {
+        return $this->hasMany(Course::class);
     }
 }
