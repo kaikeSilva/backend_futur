@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCoursesTable extends Migration
+class CreateGoalsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,18 @@ class CreateCoursesTable extends Migration
      */
     public function up()
     {
-        Schema::create('courses', function (Blueprint $table) {
+        Schema::create('goals', function (Blueprint $table) {
             $table->id();
+
             $table->foreignId('user_id')->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-
-            $table->string('name');
+            
+            $table->string('title');
             $table->string('description');
-            $table->string('resource_place');
-            $table->integer('duration_minutes');
+            $table->string('total_minutes');
+            $table->string('percentage_complete');
+            $table->string('days_limit');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -34,7 +36,7 @@ class CreateCoursesTable extends Migration
      * @return void
      */
     public function down()
-    {  
-        Schema::dropIfExists('courses');
+    {
+        Schema::dropIfExists('goals');
     }
 }

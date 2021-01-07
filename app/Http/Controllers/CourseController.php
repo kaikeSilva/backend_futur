@@ -86,8 +86,6 @@ class CourseController extends Controller
         
         $this->validate($request,[
             'name' => 'required',
-            'duration_hours' => 'required',
-            'duration_minutes' => 'required',
             'description' => 'required',
             'resource_place' => 'required',
         ],$messages);
@@ -103,7 +101,6 @@ class CourseController extends Controller
         $course->name = $name;
         $course->description = $description;
         $course->resource_place = $resource_place;
-        $course->duration_minutes = $duration_minutes + $duration_hours*60;
 
         $course->save();
         return new CourseResource($course);
@@ -117,10 +114,15 @@ class CourseController extends Controller
     {
         try {
             $course = Course::findOrFail($id);
+
+            if ($course->goals()->count() > 0) {
+                throw new \Exception('Este curso possui metas e não pode ser deletado');
+            }
+
             $course->delete();
             return response()->json(['message'=>'Curso deletado com sucesso'],200);
         } catch (\Throwable $th) {
-            return response()->json(['message' => 'Curso não encontrado!'], 404);
+            return response()->json(['message' => $th->getMessage()], 404);
         }   
     }
 }

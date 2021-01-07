@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+
 /** Class User */
 /** @package App */
 /** @property int $id */
@@ -74,5 +75,13 @@ class User extends Authenticatable implements JWTSubject
 
     public function courses() {
         return $this->hasMany(Course::class);
+    }
+
+    public function goals() {
+        return $this->hasMany(Goal::class);
+    }
+
+    public function goalsEager() {
+        return $this->hasMany(Goal::class)->with('courses');
     }
 }

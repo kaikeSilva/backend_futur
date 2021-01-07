@@ -24,6 +24,13 @@ Route::group([
         Route::get('courses/{id}','CourseController@show')->name('courses.show');
         Route::put('courses/{id}','CourseController@update')->name('courses.update');
         Route::delete('courses/{id}','CourseController@destroy')->name('courses.destroy');
+
+        //rotas de metas
+        Route::get('goals','GoalController@index')->name('goals.index');
+        Route::post('goals','GoalController@store')->name('goals.store');
+        Route::get('goals/{id}','GoalController@show')->name('goals.show');
+        Route::put('goals/{id}','GoalController@update')->name('goals.update');
+        Route::delete('goals/{id}','GoalController@destroy')->name('goals.destroy');
     });
 
     //Rotas publicas

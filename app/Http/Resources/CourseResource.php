@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Resources\MissingValue;
 
 class CourseResource extends JsonResource
 {
@@ -22,6 +23,9 @@ class CourseResource extends JsonResource
             'resource_place' => $this->resource->resource_place,
             'duration_minutes' => $this->resource->duration_minutes,
             'user' => new UserResource($this->whenLoaded('user')),
+            'pivot' => new CourseGoalResource($this->whenPivotLoaded('course_goal', function () {
+                return $this->resource->pivot;
+            })) ?? new MissingValue()
         ];
     }
 }

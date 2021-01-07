@@ -4,6 +4,7 @@ namespace App;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /** Class Course */
@@ -24,5 +25,12 @@ class Course extends Model
 
     public function user() {
         return $this->belongsTo(User::class);
+    }
+
+    public function goals() {
+        return $this->belongsToMany(Goal::class)
+        ->using(CourseGoal::class)
+        ->withPivot('id','done_minutes','deleted_at','status')
+        ->withTimestamps();
     }
 }
