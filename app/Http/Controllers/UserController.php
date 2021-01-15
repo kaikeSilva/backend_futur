@@ -11,7 +11,7 @@ class UserController extends Controller
     public function index() {
         /** @var User $user */
         $user = auth()->user();
-        $user->load('courses');
+        $user->load(['courses','goals','goals.goalItemsForToday','goals.goalItemsForToday.course']);
 
         return new UserResource($user);
     }
