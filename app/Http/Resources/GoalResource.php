@@ -21,6 +21,8 @@ class GoalResource extends JsonResource
      */
     public function toArray($request)
     {
+        $todayPercentageComplete = $this->whenLoaded('goalItems') ? $this->resource->Today_percentage_complete : new MissingValue();
+
         return [
             'id' => $this->resource->id,
             'title' => $this->resource->title,
@@ -30,7 +32,8 @@ class GoalResource extends JsonResource
             'percentage_complete' => $this->resource->percentage_complete,
             'days_limit' => $this->resource->days_limit,
             'courses' => CourseResource::collection($this->whenLoaded('courses')),
-            'today_percentage_complete' => $this->loadItems ? $this->resource->Today_percentage_complete : new MissingValue(),
+            'today_percentage_complete' => $todayPercentageComplete,
+            'today_status' => $todayPercentageComplete == 100 ? 1 : 0,
             'goal_items_for_today' =>  GoalItemResource::collection($this->whenLoaded('goalItemsForToday')),
             'goal_items' => GoalItemResource::collection($this->whenLoaded('goalItems')),
             'goal_items_per_day' => $this->loadItems ? GoalItemPerDayResource::collection($this->resource->goalItemsPerDay()) : new MissingValue()
