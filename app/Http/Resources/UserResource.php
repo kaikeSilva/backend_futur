@@ -19,6 +19,7 @@ class UserResource extends JsonResource
             'name' => $this->resource->name,
             'email' => $this->resource->email,
             'courses' => CourseResource::collection($this->whenLoaded('courses')),
+            'goals' => GoalResource::collection($this->whenLoaded('goals')),
         ];
     }
 }
