@@ -5,6 +5,8 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
+use Carbon\CarbonPeriod;
+use stdClass;
 
 /** Class Goal */
 /** @package App */
@@ -32,6 +34,35 @@ class Goal extends Model
     }
 
     public function goalItems() {
+        //dd(today()->addDay()->format('Y-m-d 00:00:00'));
         return $this->hasMany(GoalItem::class);
     }
+
+    public function goalItemsForToday() {
+        //dd(today()->addDay()->format('Y-m-d 00:00:00'));
+        return $this->hasMany(GoalItem::class)->where('day',today()->addDay()->format('Y-m-d 00:00:00') );
+    }
+
+    public function goalItemsPerDay() {
+        
+        $initialDate = new Carbon($this->created_at);
+        $period = CarbonPeriod::create( $initialDate->addDay(), now()->addDays($this->days_limit));
+        $dates = $period->toArray();
+        $objectItems = collect();
+        foreach ($dates as $day) {
+            $items = GoalItem::where([
+                ['goal_id',$this->id],
+                ['day',$day]
+            ])->get()->load('course');
+
+            $item = new stdClass();
+            $item->day = $day;
+            $item->items = $items;
+        
+            $objectItems->push($item);
+        }
+
+        return $objectItems;
+    }
+
 }
