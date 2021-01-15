@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use App\Http\Resources\GoalResource;
 use Carbon\CarbonPeriod;
 
+use function PHPSTORM_META\map;
+
 class GoalController extends Controller
 {
     public function index()
@@ -61,7 +63,8 @@ class GoalController extends Controller
         foreach ($courses as $id) {
             $course = Course::find($id);
 
-            $period = CarbonPeriod::create(now()->addDay(), now()->addDays($days_limit+1));
+            $period = CarbonPeriod::create(now()->addDay()->format('d-m-Y'), now()->addDays($days_limit+1)->format('d-m-Y'));
+            
             $dates = $period->toArray();
             $timePerDay = ceil($course->duration_minutes/$days_limit);
             $acumulatedTime = 0;
@@ -91,7 +94,6 @@ class GoalController extends Controller
         }
         
         $goal->courses()->attach($courses);
-        $goal->load(['courses','goalItems']);
 
         return new GoalResource($goal);
     }
@@ -109,7 +111,7 @@ class GoalController extends Controller
             return response()->json(['message' => 'Meta não encontrada!'], 404);
         }
         $goal->load('courses');
-        return new GoalResource($goal);
+        return new GoalResource($goal, true);
     }
 
     /**
