@@ -8,6 +8,8 @@ use App\Http\Resources\UserResource;
 
 class UserController extends Controller
 {
+    //TODO: Enviar para o dashbord a porcentagem concluida do dia
+    
     public function index() {
         /** @var User $user */
         $user = auth()->user();

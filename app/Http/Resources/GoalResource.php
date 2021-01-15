@@ -30,7 +30,8 @@ class GoalResource extends JsonResource
             'percentage_complete' => $this->resource->percentage_complete,
             'days_limit' => $this->resource->days_limit,
             'courses' => CourseResource::collection($this->whenLoaded('courses')),
-            'goal_items_for_today' => GoalItemResource::collection($this->whenLoaded('goalItemsForToday')),
+            'today_percentage_complete' => $this->loadItems ? $this->resource->Today_percentage_complete : new MissingValue(),
+            'goal_items_for_today' =>  GoalItemResource::collection($this->whenLoaded('goalItemsForToday')),
             'goal_items' => GoalItemResource::collection($this->whenLoaded('goalItems')),
             'goal_items_per_day' => $this->loadItems ? GoalItemPerDayResource::collection($this->resource->goalItemsPerDay()) : new MissingValue()
         ];

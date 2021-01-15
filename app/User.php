@@ -81,6 +81,21 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(Goal::class);
     }
 
+    public function getTodayPercentageCompleteAttribute() {
+        $goals = $this->goals;
+
+        $done = 0;
+        $todo = 0;
+        $all = 0;
+
+        foreach($goals as $item ) {
+            $all += 1;
+            $done += $item->today_percentage_complete;
+        }
+
+        return round($done*100/($all*100));
+    }
+
     public function goalsEager() {
         return $this->hasMany(Goal::class)->with('courses');
     }

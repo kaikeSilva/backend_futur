@@ -39,8 +39,25 @@ class Goal extends Model
     }
 
     public function goalItemsForToday() {
-        //dd(today()->addDay()->format('Y-m-d 00:00:00'));
         return $this->hasMany(GoalItem::class)->where('day',today()->addDay()->format('Y-m-d 00:00:00') );
+    }
+
+    public function getTodayPercentageCompleteAttribute() {
+        $items = $this->goalItemsForToday;
+        $done = 0;
+        $todo = 0;
+        $all = 0;
+
+        foreach($items as $item ) {
+            $all += $item->time;
+            if ( $item->status) {
+                $done += $item->time;
+            } else {
+                $todo += $item->time;
+            }
+        }
+
+        return round($done*100/$all);    
     }
 
     public function goalItemsPerDay() {
