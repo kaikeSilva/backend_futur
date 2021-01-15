@@ -23,6 +23,14 @@ class GoalItem extends Model
     use SoftDeletes;
 
     public function course() {
-        return $this->hasOne(Course::class);
+        return $this->belongsTo(Course::class);
+    }
+
+    public function getTimeFormattedAttribute() {
+        $hour = floor($this->time/60);
+        $minutes = $this->time%60;
+
+        if ($hour == 0) return $minutes." min"; 
+        return $hour."h ".$minutes." min";
     }
 }
