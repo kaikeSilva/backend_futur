@@ -36,6 +36,7 @@ class GoalItemController extends Controller
             'done_minutes' => $updatedTime
         ]);
         
+        $goalItem->load(['course']);
         return new GoalItemResource($goalItem);
     }
 }

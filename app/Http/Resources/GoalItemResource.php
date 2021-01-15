@@ -16,6 +16,7 @@ class GoalItemResource extends JsonResource
     {
         return [
             'id' => $this->resource->id,
+            'goal_id' => $this->resource->goal_id,
             'day' => $this->resource->day,
             'time' => $this->resource->time,
             'time_formatted' => $this->resource->time_formatted,
