@@ -23,6 +23,31 @@ use Illuminate\Notifications\Notifiable;
 class User extends Authenticatable implements JWTSubject
 {
     use Notifiable, SoftDeletes;
+
+    const WEEK_DAYS = [
+        0 => 'Domingo',
+        1 => 'Segunda Feira',
+        2 => 'Terça Feira',
+        3 => 'Quarta Feira',
+        4 => 'Quinta Feira',
+        5 => 'Sexta Feira',
+        6 => 'Sabado',
+    ];
+
+    const MONTHS = [
+        1 => 'Jan',
+        2 => 'Fev',
+        3 => 'Mar',
+        4 => 'Abr',
+        5 => 'Mai',
+        6 => 'Jun',
+        7 => 'Jul',
+        8 => 'Ago',
+        9 => 'Set',
+        10 => 'Out',
+        11 => 'Nov',
+        12 => 'Dez'
+    ];
     
     /**
      * The attributes that are mass assignable.
@@ -94,6 +119,21 @@ class User extends Authenticatable implements JWTSubject
         }
 
         return round($done*100/($all*100));
+    }
+
+    public function getTodayAttribute () {
+
+        $dayOfTheWeek = Carbon::now()->dayOfWeek;
+        $day = Carbon::now()->format('d');
+        $month = self::MONTHS[Carbon::now()->month];
+        $year = Carbon::now()->format('Y');
+        $weekday = self::WEEK_DAYS[$dayOfTheWeek];
+
+        return $day." ".$month." de ".$year;
+    }
+
+    public function getWeekDayAttribute () {
+        return self::WEEK_DAYS[Carbon::now()->dayOfWeek];
     }
 
     public function goalsEager() {

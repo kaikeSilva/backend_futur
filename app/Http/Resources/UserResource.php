@@ -17,6 +17,8 @@ class UserResource extends JsonResource
     {
         return [
             'id' => $this->resource->id,
+            'week_day' => $this->resource->week_day, 
+            'today' => $this->resource->today,
             'name' => $this->resource->name,
             'email' => $this->resource->email,
             'today_percentage_complete' =>$this->whenLoaded('goals') ? $this->resource->today_percentage_complete : new MissingValue(),
