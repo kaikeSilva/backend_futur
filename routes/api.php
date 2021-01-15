@@ -31,6 +31,8 @@ Route::group([
         Route::get('goals/{id}','GoalController@show')->name('goals.show');
         Route::put('goals/{id}','GoalController@update')->name('goals.update');
         Route::delete('goals/{id}','GoalController@destroy')->name('goals.destroy');
+
+        Route::put('goal-items/{id}','GoalItemController@update')->name('goal-items.update');
     });
 
     //Rotas publicas
