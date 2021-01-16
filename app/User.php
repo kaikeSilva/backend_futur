@@ -124,7 +124,10 @@ class User extends Authenticatable implements JWTSubject
             $done += $item->today_percentage_complete;
         }
 
-        return round($done*100/($all*100));
+        if ($all > 0) {
+            return round($done*100/($all*100));
+        }
+        return 100;
     }
 
     public function getTodayAttribute () {

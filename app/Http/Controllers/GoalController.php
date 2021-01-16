@@ -15,7 +15,7 @@ class GoalController extends Controller
 {
     public function index()
     {
-        return GoalResource::collection(auth()->user()->goalsEager);
+        return GoalResource::collection(auth()->user()->goals);
     }
 
     /**
