@@ -92,4 +92,8 @@ class Goal extends Model
         return $objectItems;
     }
 
+    public function getLateAttribute() {
+        return $this->lateGoalItemsForToday->count() > 0;
+    }
+
 }
