@@ -13,6 +13,8 @@ use Illuminate\Notifications\Notifiable;
 /** @property int $id */
 /** @property string $name */
 /** @property string $email */
+/** @property string $today */
+/** @property string $week_day */
 /** @property Carbon $email_verified_at */
 /** @property string $password */
 /** @property string $remember_token */
@@ -122,21 +124,10 @@ class User extends Authenticatable implements JWTSubject
     }
 
     public function getTodayAttribute () {
-
-        $dayOfTheWeek = Carbon::now()->dayOfWeek;
-        $day = Carbon::now()->format('d');
-        $month = self::MONTHS[Carbon::now()->month];
-        $year = Carbon::now()->format('Y');
-        $weekday = self::WEEK_DAYS[$dayOfTheWeek];
-
-        return $day." ".$month." de ".$year;
+        return to_string_date(Carbon::now());
     }
 
     public function getWeekDayAttribute () {
-        return self::WEEK_DAYS[Carbon::now()->dayOfWeek];
-    }
-
-    public function goalsEager() {
-        return $this->hasMany(Goal::class)->with('courses');
+        return week_day(Carbon::now());
     }
 }
