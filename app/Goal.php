@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
+use Illuminate\Http\Resources\MissingValue;
 use stdClass;
 
 /** Class Goal */
@@ -26,6 +27,9 @@ class Goal extends Model
 {
     use SoftDeletes;
 
+    const STATUS_DONE = 1;
+    const STATUS_TODO = 0;
+
     public function courses() {
         return $this->belongsToMany(Course::class)
         ->using(CourseGoal::class)
@@ -34,12 +38,16 @@ class Goal extends Model
     }
 
     public function goalItems() {
-        //dd(today()->addDay()->format('Y-m-d 00:00:00'));
         return $this->hasMany(GoalItem::class);
     }
 
     public function goalItemsForToday() {
-        return $this->hasMany(GoalItem::class)->where('day',today()->addDay()->format('Y-m-d 00:00:00') );
+        return $this->hasMany(GoalItem::class);
+    }
+
+    public function lateGoalItemsForToday() {
+        return $this->hasMany(GoalItem::class)
+        ->where('status',self::STATUS_TODO);
     }
 
     public function getTodayPercentageCompleteAttribute() {
@@ -56,8 +64,9 @@ class Goal extends Model
                 $todo += $item->time;
             }
         }
-
-        return round($done*100/$all);    
+        if ($all != 0) 
+            return round($done*100/$all);
+        return 100;    
     }
 
     public function goalItemsPerDay() {
