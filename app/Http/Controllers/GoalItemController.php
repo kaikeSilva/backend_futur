@@ -28,7 +28,7 @@ class GoalItemController extends Controller
 
         $goalItem->status = $goalItem->status ? 0 : 1;
         $goalItem->save();
-
+        
         $pivot = $goal->courses()->wherePivot('course_id', $goalItem->course_id)->first()->pivot;
         $updatedTime =  $goalItem->status ? $pivot->done_minutes + $goalItem->time : $pivot->done_minutes - $goalItem->time ;
 

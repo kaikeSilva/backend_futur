@@ -5,15 +5,26 @@ namespace App\Http\Controllers;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Resources\UserResource;
+use Carbon\Carbon;
 
 class UserController extends Controller
-{   // TODO: Adicionar filtro para datas e retirar logica de dia da model 
-    public function index() {
+{   
+    public function index(Request $request) {
         /** @var User $user */
-
+        $filter =  json_decode($request->header('filters')) ;
+        
         $date = today()->format('Y-m-d 00:00:00');
+        
+        if ($filter) {
+            $date = Carbon::createFromFormat('d-m-Y',$filter);
+            $date = $date->format('Y-m-d 00:00:00');
+        }
+
+        
 
         $user = auth()->user();
+        $user->date = new Carbon($date);
+
         $user->load([
             'courses',
             'goals',
@@ -21,9 +32,7 @@ class UserController extends Controller
                 $q->where("day", $date);
             },
             'goals.goalItemsForToday.course',
-            'goals.lateGoalItemsForToday' => function ($q) use ($date) {
-                $q->where('day','<',$date);
-            },
+            'goals.lateGoalItemsForToday',
             'goals.lateGoalItemsForToday.course']);
 
         return new UserResource($user);

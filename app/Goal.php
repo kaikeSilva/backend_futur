@@ -47,6 +47,7 @@ class Goal extends Model
 
     public function lateGoalItemsForToday() {
         return $this->hasMany(GoalItem::class)
+        ->where('day','<',today()->format('Y-m-d 00:00:00'))
         ->where('status',self::STATUS_TODO);
     }
 

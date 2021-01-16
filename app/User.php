@@ -25,6 +25,7 @@ use Illuminate\Notifications\Notifiable;
 class User extends Authenticatable implements JWTSubject
 {
     use Notifiable, SoftDeletes;
+    public $date;
 
     const WEEK_DAYS = [
         0 => 'Domingo',
@@ -50,7 +51,10 @@ class User extends Authenticatable implements JWTSubject
         11 => 'Nov',
         12 => 'Dez'
     ];
-    
+    protected $appends = [
+        'date'
+    ];
+
     /**
      * The attributes that are mass assignable.
      *
@@ -124,10 +128,10 @@ class User extends Authenticatable implements JWTSubject
     }
 
     public function getTodayAttribute () {
-        return to_string_date(Carbon::now());
+        return to_string_date($this->date);
     }
 
     public function getWeekDayAttribute () {
-        return week_day(Carbon::now());
+        return week_day($this->date);
     }
 }
