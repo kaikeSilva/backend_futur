@@ -21,7 +21,7 @@ class UserResource extends JsonResource
             'today' => $this->resource->today,
             'name' => $this->resource->name,
             'email' => $this->resource->email,
-            'today_percentage_complete' =>$this->whenLoaded('goals') ? $this->resource->today_percentage_complete : new MissingValue(),
+            'today_percentage_complete' => $this->whenLoaded('goals') != new MissingValue() ? $this->resource->today_percentage_complete : new MissingValue(),
             'courses' => CourseResource::collection($this->whenLoaded('courses')),
             'goals' => GoalResource::collection($this->whenLoaded('goals')),
         ];
