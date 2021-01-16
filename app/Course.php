@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /** @property string $name*/
 /** @property string $description*/
 /** @property string $resource_place*/
+/** @property string $time_formatted*/
 /** @property int $duration_minutes*/
 /** @property User $user*/
 /** @property Carbon $created_at*/
@@ -32,5 +33,9 @@ class Course extends Model
         ->using(CourseGoal::class)
         ->withPivot('id','done_minutes','deleted_at','status')
         ->withTimestamps();
+    }
+
+    public function getTimeFormattedAttribute() {
+        return to_string_time($this->duration_minutes);
     }
 }
