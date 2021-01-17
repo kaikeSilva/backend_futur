@@ -48,14 +48,12 @@ class Goal extends Model
     }
 
     public function getTodayTimeCompleteAttribute() {
-        return $this->goalItems()
-        ->where('day',today()->format('Y-m-d 00:00:00'))
+        return $this->goalItems
         ->where('status',self::STATUS_DONE)->sum('time');    
     }
 
     public function getTotalTimeForTodayAttribute() {
-        return $this->goalItems()
-        ->where('day',today()->format('Y-m-d 00:00:00'))
+        return $this->goalItems
         ->sum('time');    
     }
 
