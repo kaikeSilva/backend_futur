@@ -23,6 +23,7 @@ use Carbon\Carbon;
 /** @property Carbon deleted_at */
 class GoalItem extends Model
 {
+    // TODO: adicionar comentarios a itens
     use SoftDeletes;
 
     public function course() {

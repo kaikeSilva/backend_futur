@@ -20,18 +20,15 @@ class UserController extends Controller
             $date = $date->format('Y-m-d 00:00:00');
         }
 
-        
-
         $user = auth()->user();
         $user->date = new Carbon($date);
 
         $user->load([
-            'courses',
             'goals',
-            'goals.goalItemsForToday'  => function ($q) use ($date) {
+            'goals.goalItems'  => function ($q) use ($date) {
                 $q->where("day", $date);
             },
-            'goals.goalItemsForToday.course',
+            'goals.goalItems.course',
             'goals.lateGoalItemsForToday',
             'goals.lateGoalItemsForToday.course']);
 

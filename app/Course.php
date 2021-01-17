@@ -22,6 +22,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /** @property Carbon $deleted_at*/
 class Course extends Model
 {
+    // TODO: tornar curso em atividades e adicionar tipo de atividade: atividades de recurso financeiro e atividade de recurso de tempo
     use SoftDeletes;
 
     public function user() {

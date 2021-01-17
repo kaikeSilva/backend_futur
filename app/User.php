@@ -116,17 +116,17 @@ class User extends Authenticatable implements JWTSubject
         $goals = $this->goals;
 
         $done = 0;
-        $todo = 0;
         $all = 0;
 
         foreach($goals as $item ) {
-            $all += 1;
-            $done += $item->today_percentage_complete;
+            $all += $item->total_time_for_today;
+            $done += $item->today_time_complete;
         }
-
+        
         if ($all > 0) {
-            return round($done*100/($all*100));
+            return  round($done*100/($all));
         }
+        
         return 100;
     }
 

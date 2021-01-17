@@ -26,7 +26,7 @@ use stdClass;
 class Goal extends Model
 {
     use SoftDeletes;
-
+    
     const STATUS_DONE = 1;
     const STATUS_TODO = 0;
 
@@ -41,33 +41,22 @@ class Goal extends Model
         return $this->hasMany(GoalItem::class);
     }
 
-    public function goalItemsForToday() {
-        return $this->hasMany(GoalItem::class);
-    }
-
     public function lateGoalItemsForToday() {
         return $this->hasMany(GoalItem::class)
         ->where('day','<',today()->format('Y-m-d 00:00:00'))
         ->where('status',self::STATUS_TODO);
     }
 
-    public function getTodayPercentageCompleteAttribute() {
-        $items = $this->goalItemsForToday;
-        $done = 0;
-        $todo = 0;
-        $all = 0;
+    public function getTodayTimeCompleteAttribute() {
+        return $this->goalItems()
+        ->where('day',today()->format('Y-m-d 00:00:00'))
+        ->where('status',self::STATUS_DONE)->sum('time');    
+    }
 
-        foreach($items as $item ) {
-            $all += $item->time;
-            if ( $item->status) {
-                $done += $item->time;
-            } else {
-                $todo += $item->time;
-            }
-        }
-        if ($all != 0) 
-            return round($done*100/$all);
-        return 100;    
+    public function getTotalTimeForTodayAttribute() {
+        return $this->goalItems()
+        ->where('day',today()->format('Y-m-d 00:00:00'))
+        ->sum('time');    
     }
 
     public function goalItemsPerDay() {

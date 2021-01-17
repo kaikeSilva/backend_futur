@@ -26,7 +26,7 @@ class GoalController extends Controller
      */
     public function store(Request $request)
     {
-        //return $request->toArray();
+        //TODO: Verificar motivo pelo qual primeiro item esta sendo criado dois dias depois da criação da meta
         $messages = [
             'required' => ':attribute não pode ser vazio',
         ];
@@ -63,7 +63,7 @@ class GoalController extends Controller
         foreach ($courses as $id) {
             $course = Course::find($id);
 
-            $period = CarbonPeriod::create(now()->addDay()->format('d-m-Y'), now()->addDays($days_limit+1)->format('d-m-Y'));
+            $period = CarbonPeriod::create(now()->format('d-m-Y'), now()->addDays($days_limit)->format('d-m-Y'));
             
             $dates = $period->toArray();
             $timePerDay = ceil($course->duration_minutes/$days_limit);
