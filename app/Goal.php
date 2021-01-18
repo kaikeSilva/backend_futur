@@ -47,6 +47,12 @@ class Goal extends Model
         ->where('status',self::STATUS_TODO);
     }
 
+    public function getTodayStatusAttribute() {
+        $all = $this->total_time_for_today;
+        $done = $this->today_time_complete;
+        return $done < $all;
+    }
+
     public function getTodayTimeCompleteAttribute() {
         return $this->goalItems
         ->where('status',self::STATUS_DONE)->sum('time');    
@@ -58,20 +64,17 @@ class Goal extends Model
     }
 
     public function goalItemsPerDay() {
-        
-        $initialDate = new Carbon($this->created_at);
-        $period = CarbonPeriod::create( $initialDate->addDay(), now()->addDays($this->days_limit));
-        $dates = $period->toArray();
+        $items = GoalItem::where('goal_id',$this->id )
+        ->with('course')
+        ->get()
+        ->groupBy('day');
+
         $objectItems = collect();
-        foreach ($dates as $day) {
-            $items = GoalItem::where([
-                ['goal_id',$this->id],
-                ['day',$day]
-            ])->get()->load('course');
+        foreach ($items as $key => $value) {
 
             $item = new stdClass();
-            $item->day = $day;
-            $item->items = $items;
+            $item->day = $key;
+            $item->items = $value;
         
             $objectItems->push($item);
         }

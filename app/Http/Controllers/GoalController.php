@@ -110,7 +110,7 @@ class GoalController extends Controller
         } catch (\Throwable $th) {
             return response()->json(['message' => 'Meta não encontrada!'], 404);
         }
-        $goal->load('courses');
+        $goal->load(['courses']);
         return new GoalResource($goal, true);
     }
 

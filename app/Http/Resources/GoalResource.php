@@ -21,7 +21,6 @@ class GoalResource extends JsonResource
      */
     public function toArray($request)
     {
-        $todayPercentageComplete = $this->whenLoaded('goalItems') ? $this->resource->Today_percentage_complete : new MissingValue();
         //TODO: verificar retorno de detalhes de metas, itens estão retornando vazios
         return [
             'id' => $this->resource->id,
@@ -35,12 +34,12 @@ class GoalResource extends JsonResource
             'courses' => CourseResource::collection($this->whenLoaded('courses')),
             'today_time_complete' => $this->resource->today_time_complete,
             'total_time_for_today' => $this->resource->total_time_for_today,
-            'today_status' => $todayPercentageComplete == 100 ? 1 : 0,
+            'today_status' => !$this->resource->today_status,
             'late_goal_items_for_today' => GoalItemResource::collection($this->whenLoaded('lateGoalItemsForToday')),
             'goal_items_for_today' =>  GoalItemResource::collection($this->whenLoaded('goalItemsForToday')),
             'goal_items' => GoalItemResource::collection($this->whenLoaded('goalItems')),
             //TODO: melhorar query para itens do dia e tentar tranformar a função em uma relação
-            'goal_items_per_day' => $this->loadItems ? GoalItemPerDayResource::collection($this->resource->goalItemsPerDay()) : new MissingValue()
+            'goal_items_per_day' => $this->whenLoaded('courses') != new MissingValue() ? GoalItemPerDayResource::collection($this->resource->goalItemsPerDay()) : new MissingValue()
         ];
     }
 }
