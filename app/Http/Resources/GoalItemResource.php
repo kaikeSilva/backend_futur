@@ -20,6 +20,7 @@ class GoalItemResource extends JsonResource
             'day_formatted' => $this->resource->day_formatted,
             'week_day_formatted' => $this->resource->week_day_formatted,
             'late' => $this->resource->late,
+            'comments' => $this->resource->comments,
             'day' => $this->resource->day,
             'time' => $this->resource->time,
             'time_formatted' => $this->resource->time_formatted,

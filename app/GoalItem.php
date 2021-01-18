@@ -12,6 +12,7 @@ use Carbon\Carbon;
 /** @property string time_formatted */
 /** @property string day_formatted */
 /** @property string week_day_formatted */
+/** @property string comments */
 /** @property int course_id */
 /** @property int goal_id */
 /** @property Course course */

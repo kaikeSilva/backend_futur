@@ -25,8 +25,11 @@ class GoalItemController extends Controller
         } catch (\Throwable $th) {
             return response()->json(['message' => 'Item de meta não encontrado!'], 404);
         }
+        
+        extract($request->toArray());
 
-        $goalItem->status = $goalItem->status ? 0 : 1;
+        if (!isset($comments)) $goalItem->status = $goalItem->status ? 0 : 1;
+        else $goalItem->comments = $comments;
         $goalItem->save();
         
         $pivot = $goal->courses()->wherePivot('course_id', $goalItem->course_id)->first()->pivot;
