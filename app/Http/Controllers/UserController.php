@@ -22,14 +22,14 @@ class UserController extends Controller
 
         $user = auth()->user();
         $user->date = new Carbon($date);
-
+        
         $user->load([
             'goals',
             'goals.goalItems'  => function ($q) use ($date) {
                 $q->where("day", $date);
             },
             'goals.goalItems.course',
-            'goals.lateGoalItemsForToday',
+            'goals.goalItemsForToday',
             'goals.lateGoalItemsForToday.course']);
 
         return new UserResource($user);
