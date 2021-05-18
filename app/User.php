@@ -3,6 +3,7 @@
 namespace App;
 
 use Carbon\Carbon;
+use Facade\FlareClient\Http\Client;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -102,6 +103,10 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    public function getClientDataAttribute() {
+        return User::all();
     }
 
     public function courses() {
