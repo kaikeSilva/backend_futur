@@ -36,7 +36,7 @@ class GoalResource extends JsonResource
             'total_time_for_today' => $this->resource->total_time_for_today,
             'today_status' => !$this->resource->today_status,
             'late_goal_items_for_today' => GoalItemResource::collection($this->whenLoaded('lateGoalItemsForToday')),
-            'goal_items_for_today' =>  GoalItemResource::collection($this->whenLoaded('goalItemsForToday')),
+            //'goal_items_for_today' =>  GoalItemResource::collection($this->whenLoaded('goalItemsForToday')),
             'goal_items' => GoalItemResource::collection($this->whenLoaded('goalItems')),
             //TODO: melhorar query para itens do dia e tentar tranformar a função em uma relação
             'goal_items_per_day' => $this->whenLoaded('courses') != new MissingValue() ? GoalItemPerDayResource::collection($this->resource->goalItemsPerDay()) : new MissingValue()

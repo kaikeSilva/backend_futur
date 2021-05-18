@@ -29,7 +29,7 @@ class UserController extends Controller
                 $q->where("day", $date);
             },
             'goals.goalItems.course',
-            'goals.goalItemsForToday',
+           // 'goals.goalItemsForToday',
             'goals.lateGoalItemsForToday.course']);
 
         return new UserResource($user);
