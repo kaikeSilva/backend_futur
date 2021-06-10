@@ -1,5 +1,6 @@
 <?php
 
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,6 +18,9 @@ Route::group([
 
         //Rotas user
         Route::get('users', 'UserController@index')->name('users.index'); 
+        Route::get('users/detail', 'UserController@show')->name('users.show'); 
+        //Route::put('users/update', 'UserController@index')->name('users.index'); 
+        // Route::get('users', 'UserController@index')->name('users.index'); 
 
         //rotas de cursos
         Route::get('courses','CourseController@index')->name('courses.index');
@@ -36,6 +40,7 @@ Route::group([
     });
 
     //Rotas publicas
+    
     Route::post('login', 'AuthController@login');
     Route::post('register', 'AuthController@register');
 });

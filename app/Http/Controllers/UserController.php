@@ -34,4 +34,29 @@ class UserController extends Controller
 
         return new UserResource($user);
     }
+
+    public function show(Request $request) {
+        /** @var User $user */
+        $filter =  json_decode($request->header('filters')) ;
+        
+        $date = today()->format('Y-m-d 00:00:00');
+        
+        if ($filter) {
+            $date = Carbon::createFromFormat('d-m-Y',$filter);
+            $date = $date->format('Y-m-d 00:00:00');
+        }
+
+        $user = auth()->user();
+        $user->date = new Carbon($date);
+
+        return new UserResource($user);
+    }
+    
+    public function update(Request $request) {
+        return ["atualizando usuario"];
+    }
+
+    public function delete(Request $request) {
+        return ["deletando usuario"];
+    }
 }
