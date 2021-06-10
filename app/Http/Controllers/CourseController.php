@@ -84,10 +84,14 @@ class CourseController extends Controller
             'required' => ':attribute não pode ser vazio',
         ];
         
+        // Adicionar horas e minutos na atualização pode gerar inconsistencia
+        // Remover isso depois
         $this->validate($request,[
             'name' => 'required',
             'description' => 'required',
             'resource_place' => 'required',
+            'duration_hours' => 'required',
+            'duration_minutes' => 'required',
         ],$messages);
 
         try {
@@ -101,6 +105,7 @@ class CourseController extends Controller
         $course->name = $name;
         $course->description = $description;
         $course->resource_place = $resource_place;
+        $course->duration_minutes = $duration_minutes + $duration_hours*60;
 
         $course->save();
         return new CourseResource($course);
