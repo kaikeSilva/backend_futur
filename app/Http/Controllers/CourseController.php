@@ -68,7 +68,7 @@ class CourseController extends Controller
         } catch (\Throwable $th) {
             return response()->json(['message' => 'Curso não encontrado!'], 404);
         }
-        $course->load('user');
+        //$course->load('user');
         return new CourseResource($course);
     }
 

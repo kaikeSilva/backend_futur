@@ -94,7 +94,7 @@ class AuthController extends Controller
     {
         $messages = [
             'required' => ':attribute não pode ser vazio',
-            'email.unique'    => ':attribute ja cadastrado em outra conta',
+            'email.unique'    => ':attribute já cadastrado em outra conta',
         ];
 
         $this->validate($request,[
